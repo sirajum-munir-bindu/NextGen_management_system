@@ -130,17 +130,17 @@ const Reports = () => {
     <div className="max-w-7xl mx-auto pb-10 space-y-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-800">Export Center & Productivity Reports</h1>
-          <p className="text-slate-500 text-sm">Download high-quality CSV, Excel, or PDF reports based on custom filters.</p>
+          <h1 className="text-xl sm:text-2xl font-bold text-slate-800">Export Center & Productivity Reports</h1>
+          <p className="text-slate-500 text-xs sm:text-sm mt-0.5">Download high-quality CSV, Excel, or PDF reports based on custom filters.</p>
         </div>
 
         {/* Download Buttons */}
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="grid grid-cols-1 sm:flex sm:flex-wrap items-center gap-2.5 w-full sm:w-auto">
           <a
             href={analyticsService.getExportUrl('csv', getCleanFilterParams())}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 bg-white hover:bg-slate-50 text-slate-700 px-4 py-2 border border-slate-200 rounded-lg text-sm font-semibold shadow-sm transition-all"
+            className="flex items-center justify-center gap-2 bg-white hover:bg-slate-50 text-slate-700 px-4 py-2 border border-slate-200 rounded-lg text-sm font-semibold shadow-sm transition-all w-full sm:w-auto"
           >
             <Download size={16} />
             Export CSV
@@ -149,7 +149,7 @@ const Reports = () => {
             href={analyticsService.getExportUrl('excel', getCleanFilterParams())}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 bg-white hover:bg-slate-50 text-emerald-700 px-4 py-2 border border-slate-200 rounded-lg text-sm font-semibold shadow-sm transition-all"
+            className="flex items-center justify-center gap-2 bg-white hover:bg-slate-50 text-emerald-700 px-4 py-2 border border-slate-200 rounded-lg text-sm font-semibold shadow-sm transition-all w-full sm:w-auto"
           >
             <FileSpreadsheet size={16} />
             Export Excel
@@ -158,7 +158,7 @@ const Reports = () => {
             href={analyticsService.getExportUrl('pdf', getCleanFilterParams())}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 bg-blue-900 hover:bg-blue-950 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-md transition-all"
+            className="flex items-center justify-center gap-2 bg-blue-900 hover:bg-blue-950 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-md transition-all w-full sm:w-auto"
           >
             <FileText size={16} />
             Export PDF
@@ -167,9 +167,9 @@ const Reports = () => {
       </div>
 
       {/* Filter panel */}
-      <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+      <div className="bg-white p-4 sm:p-5 rounded-xl border border-slate-200 shadow-sm">
         <h3 className="font-semibold text-slate-700 mb-4">Report Filters</h3>
-        <form onSubmit={handleApplyFilters} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <form onSubmit={handleApplyFilters} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
           <div>
             <label className="block text-xs font-semibold text-slate-400 uppercase mb-1.5">Employee</label>
             <select
@@ -236,17 +236,17 @@ const Reports = () => {
           </div>
 
           {/* Action buttons */}
-          <div className="lg:col-span-5 flex justify-end gap-2 mt-2">
+          <div className="col-span-1 sm:col-span-2 lg:col-span-5 flex flex-col sm:flex-row justify-end gap-2 mt-2">
             <button
               type="button"
               onClick={handleClearFilters}
-              className="px-4 py-2 border border-slate-200 text-slate-600 rounded-lg text-sm font-semibold hover:bg-slate-50 transition-colors"
+              className="w-full sm:w-auto px-4 py-2 border border-slate-200 text-slate-600 rounded-lg text-sm font-semibold hover:bg-slate-50 transition-colors text-center"
             >
               Clear Filters
             </button>
             <button
               type="submit"
-              className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold shadow-sm transition-colors"
+              className="w-full sm:w-auto px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold shadow-sm transition-colors text-center"
             >
               Apply Filters
             </button>
@@ -256,55 +256,98 @@ const Reports = () => {
 
       {/* Reports Table List */}
       <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-        <div className="p-5 border-b border-slate-100 flex items-center justify-between">
-          <h3 className="font-semibold text-slate-700">Productivity Records</h3>
+        <div className="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between">
+          <h3 className="font-semibold text-slate-700 text-sm sm:text-base">Productivity Records</h3>
           <span className="text-xs font-semibold bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full">
             Total Rows: {reports.length}
           </span>
         </div>
 
-        <div className="overflow-x-auto">
-          {loading ? (
-            <div className="flex items-center justify-center py-20">
-              <span className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></span>
-            </div>
-          ) : reports.length === 0 ? (
-            <div className="text-center py-20 text-slate-400 italic">
-              No productivity records found matching the filters.
-            </div>
-          ) : (
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="bg-slate-50 text-slate-400 text-xs font-semibold uppercase tracking-wider border-b border-slate-100">
-                  <th className="px-6 py-3.5">Date</th>
-                  <th className="px-6 py-3.5">Employee Name</th>
-                  <th className="px-6 py-3.5">Department</th>
-                  <th className="px-6 py-3.5">Designation</th>
-                  <th className="px-6 py-3.5 text-center">Planned</th>
-                  <th className="px-6 py-3.5 text-center">Completed</th>
-                  <th className="px-6 py-3.5 text-center">Pending</th>
-                  <th className="px-6 py-3.5 text-center">Completion %</th>
-                  <th className="px-6 py-3.5 text-center">Rating</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100 text-sm text-slate-700">
-                {reports.map((row, idx) => (
-                  <tr key={idx} className="hover:bg-slate-50/50">
-                    <td className="px-6 py-4 font-medium text-slate-500">{row.date}</td>
-                    <td className="px-6 py-4 font-bold text-slate-900">{row.employee_name}</td>
-                    <td className="px-6 py-4">{row.department}</td>
-                    <td className="px-6 py-4 text-xs text-slate-500">{row.designation}</td>
-                    <td className="px-6 py-4 text-center font-medium">{row.planned_tasks.length}</td>
-                    <td className="px-6 py-4 text-center font-medium text-emerald-600">{row.completed_tasks.length}</td>
-                    <td className="px-6 py-4 text-center font-medium text-amber-600">{row.pending_tasks.length}</td>
-                    <td className="px-6 py-4 text-center font-bold text-slate-800">{row.completion_percentage}%</td>
-                    <td className="px-6 py-4 text-center">{getRatingBadge(row.performance_rating)}</td>
+        {loading ? (
+          <div className="flex items-center justify-center py-20">
+            <span className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></span>
+          </div>
+        ) : reports.length === 0 ? (
+          <div className="text-center py-20 text-slate-400 italic text-sm">
+            No productivity records found matching the filters.
+          </div>
+        ) : (
+          <>
+            {/* Desktop Table View */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-slate-50 text-slate-400 text-xs font-semibold uppercase tracking-wider border-b border-slate-100">
+                    <th className="px-6 py-3.5">Date</th>
+                    <th className="px-6 py-3.5">Employee Name</th>
+                    <th className="px-6 py-3.5">Department</th>
+                    <th className="px-6 py-3.5">Designation</th>
+                    <th className="px-6 py-3.5 text-center">Planned</th>
+                    <th className="px-6 py-3.5 text-center">Completed</th>
+                    <th className="px-6 py-3.5 text-center">Pending</th>
+                    <th className="px-6 py-3.5 text-center">Completion %</th>
+                    <th className="px-6 py-3.5 text-center">Rating</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-        </div>
+                </thead>
+                <tbody className="divide-y divide-slate-100 text-sm text-slate-700">
+                  {reports.map((row, idx) => (
+                    <tr key={idx} className="hover:bg-slate-50/50">
+                      <td className="px-6 py-4 font-medium text-slate-500">{row.date}</td>
+                      <td className="px-6 py-4 font-bold text-slate-900">{row.employee_name}</td>
+                      <td className="px-6 py-4">{row.department}</td>
+                      <td className="px-6 py-4 text-xs text-slate-500">{row.designation}</td>
+                      <td className="px-6 py-4 text-center font-medium">{row.planned_tasks.length}</td>
+                      <td className="px-6 py-4 text-center font-medium text-emerald-600">{row.completed_tasks.length}</td>
+                      <td className="px-6 py-4 text-center font-medium text-amber-600">{row.pending_tasks.length}</td>
+                      <td className="px-6 py-4 text-center font-bold text-slate-800">{row.completion_percentage}%</td>
+                      <td className="px-6 py-4 text-center">{getRatingBadge(row.performance_rating)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Mobile Card View */}
+            <div className="md:hidden divide-y divide-slate-100">
+              {reports.map((row, idx) => (
+                <div key={idx} className="p-4 space-y-3 hover:bg-slate-50/50 transition-colors">
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <p className="font-bold text-slate-900 text-base">{row.employee_name}</p>
+                      <p className="text-xs text-slate-500">{row.designation} &bull; {row.department}</p>
+                    </div>
+                    {getRatingBadge(row.performance_rating)}
+                  </div>
+                  
+                  <div className="flex items-center justify-between text-xs text-slate-500 bg-slate-50 p-2.5 rounded-lg border border-slate-100">
+                    <span className="flex items-center gap-1 font-medium">
+                      <Calendar size={13} className="text-blue-600" />
+                      {row.date}
+                    </span>
+                    <span className="font-black text-sm text-slate-800">
+                      {row.completion_percentage}% <span className="text-[10px] font-normal text-slate-400">Score</span>
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-2 text-center text-xs">
+                    <div className="bg-slate-100/70 p-2 rounded">
+                      <span className="block font-bold text-slate-700">{row.planned_tasks.length}</span>
+                      <span className="text-[10px] text-slate-400 uppercase">Planned</span>
+                    </div>
+                    <div className="bg-emerald-50/70 p-2 rounded border border-emerald-100/50">
+                      <span className="block font-bold text-emerald-700">{row.completed_tasks.length}</span>
+                      <span className="text-[10px] text-emerald-600 uppercase">Completed</span>
+                    </div>
+                    <div className="bg-amber-50/70 p-2 rounded border border-amber-100/50">
+                      <span className="block font-bold text-amber-700">{row.pending_tasks.length}</span>
+                      <span className="text-[10px] text-amber-600 uppercase">Pending</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

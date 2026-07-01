@@ -26,9 +26,9 @@ const ProtectedRoute = ({ children }) => {
 // Main layout wrapper that holds the sidebar and main viewport
 const Layout = ({ children }) => {
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen bg-slate-50">
+    <div className="flex flex-col lg:flex-row min-h-screen bg-slate-50 text-slate-800 overflow-x-hidden">
       <Sidebar />
-      <main className="flex-1 p-5 md:p-8 overflow-y-auto h-screen pt-16 lg:pt-8">
+      <main className="flex-1 w-full max-w-full p-4 sm:p-6 md:p-8 overflow-y-auto min-h-screen lg:h-screen pt-20 lg:pt-8 transition-all duration-300">
         {children}
       </main>
     </div>

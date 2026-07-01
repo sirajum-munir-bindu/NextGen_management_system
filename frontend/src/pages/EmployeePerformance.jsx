@@ -43,6 +43,13 @@ const EmployeePerformance = () => {
       // Get productivity reports filtered by this employee
       const history = await analyticsService.getReportsList({ employee_id: employee.id });
       setEmployeeHistory(history);
+      // On mobile/tablet, smooth scroll to employee details section after selection
+      if (window.innerWidth < 1024) {
+        setTimeout(() => {
+          const el = document.getElementById('employee-details');
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+      }
     } catch (error) {
       console.error("Error fetching employee history:", error);
     } finally {
@@ -112,14 +119,14 @@ const EmployeePerformance = () => {
   return (
     <div className="max-w-7xl mx-auto pb-10 space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-slate-800">Employee Performance Tracker</h1>
-        <p className="text-slate-500 text-sm">Review detailed task completions, performance history, and average rankings.</p>
+        <h1 className="text-xl sm:text-2xl font-bold text-slate-800">Employee Performance Tracker</h1>
+        <p className="text-slate-500 text-xs sm:text-sm mt-0.5">Review detailed task completions, performance history, and average rankings.</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Side: Directory and Filters */}
-        <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col h-[75vh]">
-          <h3 className="font-semibold text-slate-700 mb-4">Team Directory</h3>
+        <div className="bg-white p-4 sm:p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col max-h-80 sm:max-h-96 lg:max-h-none lg:h-[75vh]">
+          <h3 className="font-semibold text-slate-700 mb-3 sm:mb-4 text-sm sm:text-base">Team Directory</h3>
           
           {/* Search and Filters */}
           <div className="space-y-3 mb-4">
@@ -176,25 +183,25 @@ const EmployeePerformance = () => {
         </div>
 
         {/* Right Side: Performance Breakdown */}
-        <div className="lg:col-span-2 bg-white p-6 rounded-xl border border-slate-200 shadow-sm min-h-[75vh] flex flex-col">
+        <div id="employee-details" className="lg:col-span-2 bg-white p-4 sm:p-6 rounded-xl border border-slate-200 shadow-sm min-h-[50vh] lg:min-h-[75vh] flex flex-col scroll-mt-20">
           {selectedEmployee ? (
             <div className="flex-1 flex flex-col">
               {/* Employee Summary Header */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-100">
                 <div>
-                  <h2 className="text-xl font-bold text-slate-800">{selectedEmployee.name}</h2>
-                  <p className="text-sm text-slate-500">{selectedEmployee.designation} &bull; {selectedEmployee.department}</p>
+                  <h2 className="text-lg sm:text-xl font-bold text-slate-800">{selectedEmployee.name}</h2>
+                  <p className="text-xs sm:text-sm text-slate-500 mt-0.5">{selectedEmployee.designation} &bull; {selectedEmployee.department}</p>
                   <p className="text-xs text-slate-400 mt-1">{selectedEmployee.email}</p>
                 </div>
 
                 {/* Overall performance indicators */}
-                <div className="flex items-center gap-3">
-                  <div className="bg-blue-900/5 p-4 rounded-xl text-center min-w-[90px] border border-blue-900/5">
-                    <span className="block text-2xl font-black text-blue-950">{overallStats.avg}%</span>
+                <div className="grid grid-cols-2 sm:flex items-center gap-3 w-full sm:w-auto">
+                  <div className="bg-blue-900/5 p-3 sm:p-4 rounded-xl text-center min-w-[80px] sm:min-w-[90px] border border-blue-900/5">
+                    <span className="block text-xl sm:text-2xl font-black text-blue-950">{overallStats.avg}%</span>
                     <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wide">Avg Score</span>
                   </div>
-                  <div className="bg-slate-50 p-4 rounded-xl text-center min-w-[130px] border border-slate-100">
-                    <span className="block font-bold mt-1.5">{getRatingBadge(overallStats.rating)}</span>
+                  <div className="bg-slate-50 p-3 sm:p-4 rounded-xl text-center min-w-[110px] sm:min-w-[130px] border border-slate-100">
+                    <span className="block font-bold mt-1 sm:mt-1.5">{getRatingBadge(overallStats.rating)}</span>
                     <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wide mt-1 block">Rating</span>
                   </div>
                 </div>
@@ -233,14 +240,14 @@ const EmployeePerformance = () => {
                           </div>
 
                           {/* Task List Compare Grid */}
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
                             {/* Planned Tasks */}
-                            <div className="bg-slate-50 p-3.5 rounded-lg border border-slate-100">
+                            <div className="bg-slate-50 p-3.5 rounded-lg border border-slate-100 break-words">
                               <h4 className="font-bold text-slate-700 text-xs uppercase tracking-wider mb-2 text-indigo-900">Planned Tasks</h4>
                               {day.planned_tasks.length > 0 ? (
                                 <ul className="space-y-1.5 list-disc list-inside text-slate-600 text-xs">
                                   {day.planned_tasks.map((task, idx) => (
-                                    <li key={idx} className="truncate">{task}</li>
+                                    <li key={idx} className="break-words">{task}</li>
                                   ))}
                                 </ul>
                               ) : (
@@ -249,7 +256,7 @@ const EmployeePerformance = () => {
                             </div>
 
                             {/* Completed & Pending */}
-                            <div className="bg-emerald-50/20 p-3.5 rounded-lg border border-emerald-100/50">
+                            <div className="bg-emerald-50/20 p-3.5 rounded-lg border border-emerald-100/50 break-words">
                               <h4 className="font-bold text-slate-700 text-xs uppercase tracking-wider mb-2 text-emerald-900">Completed & Pending</h4>
                               
                               <div className="space-y-3">
@@ -259,7 +266,7 @@ const EmployeePerformance = () => {
                                     <p className="text-[10px] font-bold text-emerald-700 uppercase mb-1">Completed</p>
                                     <ul className="space-y-1 text-slate-600 text-xs list-disc list-inside">
                                       {day.completed_tasks.map((task, idx) => (
-                                        <li key={idx} className="line-through text-slate-400 truncate">{task}</li>
+                                        <li key={idx} className="line-through text-slate-400 break-words">{task}</li>
                                       ))}
                                     </ul>
                                   </div>
@@ -271,7 +278,7 @@ const EmployeePerformance = () => {
                                     <p className="text-[10px] font-bold text-amber-700 uppercase mb-1">Pending</p>
                                     <ul className="space-y-1 text-slate-600 text-xs list-disc list-inside">
                                       {day.pending_tasks.map((task, idx) => (
-                                        <li key={idx} className="text-slate-700 font-medium truncate">{task}</li>
+                                        <li key={idx} className="text-slate-700 font-medium break-words">{task}</li>
                                       ))}
                                     </ul>
                                   </div>

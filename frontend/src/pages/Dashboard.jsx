@@ -102,26 +102,29 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto pb-10">
+    <div className="space-y-6 sm:space-y-8 max-w-7xl mx-auto pb-10">
       {/* Header section */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-800">Team Productivity Dashboard</h1>
-          <p className="text-slate-500 text-sm">Real-time completion monitoring and historical performance trends.</p>
+          <h1 className="text-xl sm:text-2xl font-bold text-slate-800">Team Productivity Dashboard</h1>
+          <p className="text-slate-500 text-xs sm:text-sm mt-0.5">Real-time completion monitoring and historical performance trends.</p>
         </div>
-        <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-lg border border-slate-200 shadow-sm self-start">
-          <Calendar size={16} className="text-slate-400" />
-          <input 
-            type="date" 
-            value={selectedDate}
-            onChange={(e) => setSelectedDate(e.target.value)}
-            className="outline-none border-none text-slate-700 font-medium text-sm"
-          />
+        <div className="flex items-center justify-between sm:justify-start gap-2 bg-white px-3.5 py-2.5 rounded-xl border border-slate-200 shadow-sm w-full sm:w-auto">
+          <span className="text-xs font-semibold text-slate-400 sm:hidden">Select Date:</span>
+          <div className="flex items-center gap-2">
+            <Calendar size={16} className="text-blue-600" />
+            <input 
+              type="date" 
+              value={selectedDate}
+              onChange={(e) => setSelectedDate(e.target.value)}
+              className="outline-none border-none text-slate-700 font-semibold text-sm bg-transparent"
+            />
+          </div>
         </div>
       </div>
 
       {/* Top Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-5">
         <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
           <div className="p-3 bg-blue-100 text-blue-600 rounded-lg"><Users size={22} /></div>
           <div>
@@ -160,21 +163,23 @@ const Dashboard = () => {
       </div>
 
       {/* AI Summary Banner */}
-      <div className="bg-gradient-to-r from-blue-900 to-indigo-900 text-white rounded-xl p-5 shadow-lg border border-blue-900 flex flex-col md:flex-row items-start md:items-center gap-4 relative overflow-hidden">
+      <div className="bg-gradient-to-r from-blue-900 to-indigo-900 text-white rounded-xl p-4 sm:p-6 shadow-lg border border-blue-900 flex flex-col sm:flex-row items-start sm:items-center gap-4 relative overflow-hidden">
         <div className="absolute right-0 top-0 translate-x-1/4 -translate-y-1/4 opacity-10 pointer-events-none">
           <Sparkles size={180} />
         </div>
-        <div className="p-2.5 bg-white/10 rounded-lg shrink-0">
+        <div className="p-3 bg-white/10 rounded-xl shrink-0">
           <Sparkles size={24} className="text-amber-400" />
         </div>
         <div>
-          <h4 className="font-semibold text-sm text-blue-300 uppercase tracking-wider mb-0.5">Smart AI Productivity Summary</h4>
-          <p className="text-sm font-medium leading-relaxed">{aiSummary}</p>
+          <h4 className="font-bold text-xs sm:text-sm text-blue-300 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+            Smart AI Productivity Summary
+          </h4>
+          <p className="text-xs sm:text-sm font-medium leading-relaxed text-slate-100">{aiSummary}</p>
         </div>
       </div>
 
       {/* Top Performers Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {/* Daily Top Performer */}
         <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm relative overflow-hidden">
           <div className="absolute right-4 top-4 text-amber-500 opacity-20"><Trophy size={48} /></div>
@@ -230,17 +235,17 @@ const Dashboard = () => {
       {/* Main Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Productivity by Employee */}
-        <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-          <h4 className="text-sm font-semibold text-slate-700 mb-4">Top 10 Employees Productivity (Last 30 Days)</h4>
-          <div className="h-80">
+        <div className="bg-white p-4 sm:p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col">
+          <h4 className="text-sm font-bold text-slate-700 mb-4">Top 10 Employees Productivity (Last 30 Days)</h4>
+          <div className="h-64 sm:h-72 lg:h-80 w-full">
             {employeeProductivity.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={employeeProductivity} margin={{ top: 5, right: 5, left: -20, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                  <XAxis dataKey="name" stroke="#94a3b8" fontSize={11} tickLine={false} />
-                  <YAxis domain={[0, 100]} stroke="#94a3b8" fontSize={11} tickLine={false} />
-                  <Tooltip formatter={(val) => [`${val}%`, 'Productivity']} contentStyle={{ borderRadius: 8, border: '1px solid #e2e8f0' }} />
-                  <Bar dataKey="productivity" fill="#1e3a8a" radius={[4, 4, 0, 0]} barSize={32} />
+                  <XAxis dataKey="name" stroke="#94a3b8" fontSize={10} tickLine={false} />
+                  <YAxis domain={[0, 100]} stroke="#94a3b8" fontSize={10} tickLine={false} />
+                  <Tooltip formatter={(val) => [`${val}%`, 'Productivity']} contentStyle={{ borderRadius: 8, border: '1px solid #e2e8f0', fontSize: 12 }} />
+                  <Bar dataKey="productivity" fill="#1e3a8a" radius={[4, 4, 0, 0]} barSize={28} />
                 </BarChart>
               </ResponsiveContainer>
             ) : (
@@ -250,9 +255,9 @@ const Dashboard = () => {
         </div>
 
         {/* Daily Team Performance */}
-        <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-          <h4 className="text-sm font-semibold text-slate-700 mb-4">Daily Performance Trend (Last 15 Days)</h4>
-          <div className="h-80">
+        <div className="bg-white p-4 sm:p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col">
+          <h4 className="text-sm font-bold text-slate-700 mb-4">Daily Performance Trend (Last 15 Days)</h4>
+          <div className="h-64 sm:h-72 lg:h-80 w-full">
             {dailyPerformance.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={dailyPerformance} margin={{ top: 5, right: 5, left: -20, bottom: 5 }}>
@@ -263,9 +268,9 @@ const Dashboard = () => {
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                  <XAxis dataKey="date" stroke="#94a3b8" fontSize={11} tickLine={false} />
-                  <YAxis domain={[0, 100]} stroke="#94a3b8" fontSize={11} tickLine={false} />
-                  <Tooltip formatter={(val) => [`${val}%`, 'Avg Productivity']} contentStyle={{ borderRadius: 8, border: '1px solid #e2e8f0' }} />
+                  <XAxis dataKey="date" stroke="#94a3b8" fontSize={10} tickLine={false} />
+                  <YAxis domain={[0, 100]} stroke="#94a3b8" fontSize={10} tickLine={false} />
+                  <Tooltip formatter={(val) => [`${val}%`, 'Avg Productivity']} contentStyle={{ borderRadius: 8, border: '1px solid #e2e8f0', fontSize: 12 }} />
                   <Area type="monotone" dataKey="productivity" stroke="#3b82f6" strokeWidth={2} fillOpacity={1} fill="url(#colorProd)" />
                 </AreaChart>
               </ResponsiveContainer>
@@ -279,16 +284,16 @@ const Dashboard = () => {
       {/* Secondary Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Weekly Trend */}
-        <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-          <h4 className="text-sm font-semibold text-slate-700 mb-4">Weekly Performance Trend</h4>
-          <div className="h-80">
+        <div className="bg-white p-4 sm:p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col">
+          <h4 className="text-sm font-bold text-slate-700 mb-4">Weekly Performance Trend</h4>
+          <div className="h-64 sm:h-72 lg:h-80 w-full">
             {weeklyTrend.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={weeklyTrend} margin={{ top: 5, right: 5, left: -20, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
                   <XAxis dataKey="week" stroke="#94a3b8" fontSize={10} tickLine={false} />
-                  <YAxis domain={[0, 100]} stroke="#94a3b8" fontSize={11} tickLine={false} />
-                  <Tooltip formatter={(val) => [`${val}%`, 'Avg Productivity']} contentStyle={{ borderRadius: 8, border: '1px solid #e2e8f0' }} />
+                  <YAxis domain={[0, 100]} stroke="#94a3b8" fontSize={10} tickLine={false} />
+                  <Tooltip formatter={(val) => [`${val}%`, 'Avg Productivity']} contentStyle={{ borderRadius: 8, border: '1px solid #e2e8f0', fontSize: 12 }} />
                   <Line type="monotone" dataKey="productivity" stroke="#1e3a8a" strokeWidth={2} dot={{ r: 4 }} activeDot={{ r: 6 }} />
                 </LineChart>
               </ResponsiveContainer>
@@ -299,17 +304,17 @@ const Dashboard = () => {
         </div>
 
         {/* Monthly Trend */}
-        <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-          <h4 className="text-sm font-semibold text-slate-700 mb-4">Monthly Productivity Trend</h4>
-          <div className="h-80">
+        <div className="bg-white p-4 sm:p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col">
+          <h4 className="text-sm font-bold text-slate-700 mb-4">Monthly Productivity Trend</h4>
+          <div className="h-64 sm:h-72 lg:h-80 w-full">
             {monthlyTrend.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={monthlyTrend} margin={{ top: 5, right: 5, left: -20, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
                   <XAxis dataKey="month" stroke="#94a3b8" fontSize={10} tickLine={false} />
-                  <YAxis domain={[0, 100]} stroke="#94a3b8" fontSize={11} tickLine={false} />
-                  <Tooltip formatter={(val) => [`${val}%`, 'Avg Productivity']} contentStyle={{ borderRadius: 8, border: '1px solid #e2e8f0' }} />
-                  <Bar dataKey="productivity" fill="#475569" radius={[4, 4, 0, 0]} barSize={40} />
+                  <YAxis domain={[0, 100]} stroke="#94a3b8" fontSize={10} tickLine={false} />
+                  <Tooltip formatter={(val) => [`${val}%`, 'Avg Productivity']} contentStyle={{ borderRadius: 8, border: '1px solid #e2e8f0', fontSize: 12 }} />
+                  <Bar dataKey="productivity" fill="#475569" radius={[4, 4, 0, 0]} barSize={36} />
                 </BarChart>
               </ResponsiveContainer>
             ) : (

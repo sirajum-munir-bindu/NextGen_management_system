@@ -44,8 +44,8 @@ const Login = () => {
         <div className="absolute bottom-[20%] right-[10%] w-72 h-72 bg-indigo-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse delay-700"></div>
       </div>
 
-      <div className="w-full max-w-md bg-slate-800 border border-slate-700/80 rounded-2xl shadow-2xl p-8 relative z-10">
-        <div className="text-center mb-8">
+      <div className="w-full max-w-md bg-slate-800 border border-slate-700/80 rounded-2xl shadow-2xl p-6 sm:p-8 relative z-10">
+        <div className="text-center mb-6 sm:mb-8">
           <div className="inline-flex p-3 bg-blue-600/10 text-blue-400 rounded-xl mb-4">
             <LogIn size={32} />
           </div>

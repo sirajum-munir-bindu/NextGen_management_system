@@ -234,15 +234,15 @@ const AdminPanel = () => {
   return (
     <div className="max-w-7xl mx-auto pb-10 space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-slate-800">Admin Control Panel</h1>
-        <p className="text-slate-500 text-sm">Configure core employee directories, seed task plans, and finalize work reports.</p>
+        <h1 className="text-xl sm:text-2xl font-bold text-slate-800">Admin Control Panel</h1>
+        <p className="text-slate-500 text-xs sm:text-sm mt-0.5">Configure core employee directories, seed task plans, and finalize work reports.</p>
       </div>
 
       {/* Tabs Switcher */}
-      <div className="flex border-b border-slate-200">
+      <div className="flex border-b border-slate-200 overflow-x-auto no-scrollbar">
         <button
           onClick={() => setActiveTab('employees')}
-          className={`px-5 py-3 font-semibold text-sm transition-colors border-b-2 -mb-[2px] flex items-center gap-2 ${
+          className={`px-4 sm:px-5 py-3 font-semibold text-xs sm:text-sm transition-colors border-b-2 -mb-[2px] flex items-center gap-2 shrink-0 ${
             activeTab === 'employees' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700'
           }`}
         >
@@ -250,7 +250,7 @@ const AdminPanel = () => {
         </button>
         <button
           onClick={() => setActiveTab('plans')}
-          className={`px-5 py-3 font-semibold text-sm transition-colors border-b-2 -mb-[2px] flex items-center gap-2 ${
+          className={`px-4 sm:px-5 py-3 font-semibold text-xs sm:text-sm transition-colors border-b-2 -mb-[2px] flex items-center gap-2 shrink-0 ${
             activeTab === 'plans' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700'
           }`}
         >
@@ -258,7 +258,7 @@ const AdminPanel = () => {
         </button>
         <button
           onClick={() => setActiveTab('reports')}
-          className={`px-5 py-3 font-semibold text-sm transition-colors border-b-2 -mb-[2px] flex items-center gap-2 ${
+          className={`px-4 sm:px-5 py-3 font-semibold text-xs sm:text-sm transition-colors border-b-2 -mb-[2px] flex items-center gap-2 shrink-0 ${
             activeTab === 'reports' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700'
           }`}
         >
@@ -360,55 +360,94 @@ const AdminPanel = () => {
 
           {/* Directory Table */}
           <div className="lg:col-span-2 bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
-            <div className="p-4 border-b border-slate-100"><h3 className="font-semibold text-slate-700">Employees List</h3></div>
-            <div className="overflow-x-auto">
-              {loading ? (
-                <div className="flex items-center justify-center py-20"><span className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></span></div>
-              ) : employees.length === 0 ? (
-                <div className="text-center py-20 text-slate-400 italic">No employees seeded yet.</div>
-              ) : (
-                <table className="w-full text-left border-collapse text-sm">
-                  <thead>
-                    <tr className="bg-slate-50 border-b border-slate-100 text-slate-400 font-semibold uppercase text-xs">
-                      <th className="px-6 py-3">Name</th>
-                      <th className="px-6 py-3">Department</th>
-                      <th className="px-6 py-3">Designation</th>
-                      <th className="px-6 py-3 text-center">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-100 text-slate-700">
-                    {employees.map(emp => (
-                      <tr key={emp.id} className="hover:bg-slate-50/50">
-                        <td className="px-6 py-4">
-                          <p className="font-bold text-slate-800 leading-tight">{emp.name}</p>
-                          <span className="text-xs text-slate-400">{emp.email}</span>
-                        </td>
-                        <td className="px-6 py-4">{emp.department}</td>
-                        <td className="px-6 py-4 text-xs font-semibold text-slate-500">{emp.designation}</td>
-                        <td className="px-6 py-4 text-center">
-                          <div className="inline-flex gap-2">
-                            <button
-                              onClick={() => handleEditEmp(emp)}
-                              className="p-1.5 text-blue-600 hover:bg-blue-50 rounded transition-colors"
-                              title="Edit Employee"
-                            >
-                              <Edit2 size={16} />
-                            </button>
-                            <button
-                              onClick={() => handleDeleteEmp(emp.id)}
-                              className="p-1.5 text-rose-600 hover:bg-rose-50 rounded transition-colors"
-                              title="Delete Employee"
-                            >
-                              <Trash2 size={16} />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              )}
+            <div className="p-4 border-b border-slate-100 flex items-center justify-between">
+              <h3 className="font-semibold text-slate-700">Employees List</h3>
+              <span className="text-xs bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full font-semibold">{employees.length} Members</span>
             </div>
+            
+            {loading ? (
+              <div className="flex items-center justify-center py-20"><span className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></span></div>
+            ) : employees.length === 0 ? (
+              <div className="text-center py-20 text-slate-400 italic text-sm">No employees seeded yet.</div>
+            ) : (
+              <>
+                {/* Desktop Table */}
+                <div className="hidden sm:block overflow-x-auto">
+                  <table className="w-full text-left border-collapse text-sm">
+                    <thead>
+                      <tr className="bg-slate-50 border-b border-slate-100 text-slate-400 font-semibold uppercase text-xs">
+                        <th className="px-6 py-3">Name</th>
+                        <th className="px-6 py-3">Department</th>
+                        <th className="px-6 py-3">Designation</th>
+                        <th className="px-6 py-3 text-center">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100 text-slate-700">
+                      {employees.map(emp => (
+                        <tr key={emp.id} className="hover:bg-slate-50/50">
+                          <td className="px-6 py-4">
+                            <p className="font-bold text-slate-800 leading-tight">{emp.name}</p>
+                            <span className="text-xs text-slate-400">{emp.email}</span>
+                          </td>
+                          <td className="px-6 py-4">{emp.department}</td>
+                          <td className="px-6 py-4 text-xs font-semibold text-slate-500">{emp.designation}</td>
+                          <td className="px-6 py-4 text-center">
+                            <div className="inline-flex gap-2">
+                              <button
+                                onClick={() => handleEditEmp(emp)}
+                                className="p-1.5 text-blue-600 hover:bg-blue-50 rounded transition-colors"
+                                title="Edit Employee"
+                              >
+                                <Edit2 size={16} />
+                              </button>
+                              <button
+                                onClick={() => handleDeleteEmp(emp.id)}
+                                className="p-1.5 text-rose-600 hover:bg-rose-50 rounded transition-colors"
+                                title="Delete Employee"
+                              >
+                                <Trash2 size={16} />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Mobile Cards */}
+                <div className="sm:hidden divide-y divide-slate-100">
+                  {employees.map(emp => (
+                    <div key={emp.id} className="p-4 flex items-center justify-between gap-3 hover:bg-slate-50/50">
+                      <div>
+                        <p className="font-bold text-slate-800 text-sm leading-tight">{emp.name}</p>
+                        <p className="text-xs text-slate-400 mt-0.5">{emp.email}</p>
+                        <div className="flex items-center gap-2 mt-2">
+                          <span className="text-[10px] font-semibold bg-blue-50 text-blue-700 px-2 py-0.5 rounded">{emp.department}</span>
+                          <span className="text-[10px] text-slate-500">{emp.designation}</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-1 shrink-0">
+                        <button
+                          onClick={() => handleEditEmp(emp)}
+                          className="p-2 text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors"
+                          title="Edit Employee"
+                        >
+                          <Edit2 size={16} />
+                        </button>
+                        <button
+                          onClick={() => handleDeleteEmp(emp.id)}
+                          className="p-2 text-rose-600 bg-rose-50 hover:bg-rose-100 rounded-lg transition-colors"
+                          title="Delete Employee"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}
